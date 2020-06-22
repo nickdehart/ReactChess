@@ -1,3 +1,9 @@
+## React Chess
+
+#### TODO: AI for the opponent and maybe sockets for multiplayer.
+
+![alt text](./example.gif)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
