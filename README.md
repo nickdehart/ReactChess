@@ -2,6 +2,7 @@
 
 #### TODO:
 
+- Check and Checkmate states.
 - AI for the opponent is janky.
 - UI improvements.
 - Undo last move.
