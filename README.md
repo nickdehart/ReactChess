@@ -1,6 +1,11 @@
 ## React Chess
 
-#### TODO: AI for the opponent and maybe sockets for multiplayer.
+#### TODO:
+
+- AI for the opponent is janky.
+- UI improvements.
+- Undo last move.
+- Sockets for multiplayer.
 
 ![alt text](./example.gif)
 
