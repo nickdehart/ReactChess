@@ -1,0 +1,8 @@
+.gameOver {
+    position: absolute;
+    border-radius: 10% 10%;
+    border: 3px solid;
+    background-color: white;
+    padding: 20px 60px 20px 60px;
+    transform: translate(35%, 100%);
+}

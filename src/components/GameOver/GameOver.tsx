@@ -1,9 +1,8 @@
-import { useStyles } from './GameOver.styles';
+import classes from './GameOver.module.css';
 import { Teams } from '@/types/enums';
 
 
 export function GameOver({ gameOver, turn }: { gameOver: boolean, turn: Teams }) {
-    const classes = useStyles();
 
     if(gameOver)
         return (
