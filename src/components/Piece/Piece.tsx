@@ -1,6 +1,4 @@
-
-
-import { createUseStyles } from 'react-jss'
+import classes             from './Piece.module.css';
 import { Cell, BoardType } from '@/types/common';
 import { Pieces, Teams }   from '@/types/enums';
 import { getImage }        from "@/utilities/imageUtils";
@@ -10,18 +8,6 @@ import { bishop }          from "@/utilities/bishop";
 import { queen }           from "@/utilities/queen";
 import { knight }          from "@/utilities/knight";
 import { king }            from "@/utilities/king";
-
-
-const useStyles = createUseStyles({
-    button: {
-        border: "none", 
-        backgroundColor: "inherit"
-    },
-    piece: {
-        maxWidth: 40,
-        maxHeight: 40
-    }
-})
 
 
 interface PieceProps {
@@ -35,7 +21,6 @@ interface PieceProps {
 
 
 export function Piece({ piece, board, setBoard, setActive, turn, gameOver }: PieceProps) {
-    const classes = useStyles();
 
     const getMovements = (piece: Cell) => {
         if (piece.team !== turn || gameOver) return;

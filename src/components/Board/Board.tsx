@@ -1,5 +1,5 @@
 import { useState }        from "react";
-import { useStyles }       from './Board.styles';
+import classes             from './Board.module.css';
 
 import { Piece }           from "@/components/Piece";
 import { LostPieces }      from "@/components/LostPieces";
@@ -10,7 +10,6 @@ import { Pieces, Teams }   from '@/types/enums';
 
 
 export function Board() {
-    const classes = useStyles();
 
     const [board, setBoard] = useState<BoardType>(init());
     const [turn, setTurn] = useState<Teams>(Teams.WHITE);

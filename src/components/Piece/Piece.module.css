@@ -1,0 +1,10 @@
+
+.button {
+    border: none; 
+    background-color: inherit;
+}
+
+.piece {
+    max-width: 40px;
+    max-height: 40px;
+}
