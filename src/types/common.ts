@@ -6,6 +6,7 @@ export interface Cell {
     type: Pieces,
     team: Teams,
     highlight: boolean,
+    hasMoved: boolean, // only relevant for king/rook castle move
 }
 
 export type BoardType = Cell[][];
