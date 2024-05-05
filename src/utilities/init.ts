@@ -1,5 +1,5 @@
 import { BoardType } from '@/types/common';
-import { Pieces, Teams } from '@/types/enums';
+import { Pieces, Teams, Rows } from '@/types/enums';
 import { BOARD_SIZE } from '@/types/constants';
 
 /**
@@ -26,14 +26,15 @@ export function init() :BoardType {
                 type: Pieces.EMPTY,
                 team: Teams.EMPTY,
                 highlight: false,
+                hasMoved: false
             });
 
-            if (row === 1 || row === 6) {
+            if (row === Rows.TWO || row === Rows.SEVEN) {
 
                 // fill pawn rows
                 board[row][col].type = Pieces.PAWN;
                 
-            } else if (row === 0 || row === 7) {
+            } else if (row === Rows.ONE || row === Rows.EIGHT) {
 
                 // handle first and last row
                 switch (col) {
@@ -50,8 +51,8 @@ export function init() :BoardType {
             }
 
             // set team
-            if (row < 2) board[row][col].team = Teams.BLACK;
-            else if(row > 5) board[row][col].team = Teams.WHITE;
+            if (row < Rows.THREE) board[row][col].team = Teams.BLACK;
+            else if(row > Rows.SIX) board[row][col].team = Teams.WHITE;
         })
         
     })
