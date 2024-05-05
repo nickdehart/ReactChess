@@ -3,13 +3,10 @@
 #### TODO:
 
 - Tests!
-- Maybe dump the images into an S3 bucket.
 - Logic impovements.
 - Check and Checkmate states.
-- AI for the opponent is janky, and has not been updated for typescript.
 - UI improvements.
 - Undo last move.
-- Sockets for multiplayer.
 
 ![alt text](./example.gif)
 
