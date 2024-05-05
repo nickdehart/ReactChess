@@ -1,28 +1,10 @@
 import { useState }        from "react";
 import { useStyles }       from './Board.styles';
 
-import BlackBishop         from '@/assets/chesspieces/bB.png';
-import BlackKing           from '@/assets/chesspieces/bK.png';
-import BlackKnight         from '@/assets/chesspieces/bN.png';
-import BlackPawn           from '@/assets/chesspieces/bP.png';
-import BlackQueen          from '@/assets/chesspieces/bQ.png';
-import BlackRook           from '@/assets/chesspieces/bR.png';
-import WhiteBishop         from '@/assets/chesspieces/wB.png';
-import WhiteKing           from '@/assets/chesspieces/wK.png';
-import WhiteKnight         from '@/assets/chesspieces/wN.png';
-import WhitePawn           from '@/assets/chesspieces/wP.png';
-import WhiteQueen          from '@/assets/chesspieces/wQ.png';
-import WhiteRook           from '@/assets/chesspieces/wR.png';
 import { Piece }           from "@/components/Piece";
 import { LostPieces }      from "@/components/LostPieces";
 import { GameOver }        from "@/components/GameOver";
 import { init }            from "@/utilities/init";
-import { pawn }            from "@/utilities/pawn";
-import { rook }            from "@/utilities/rook";
-import { bishop }          from "@/utilities/bishop";
-import { queen }           from "@/utilities/queen";
-import { knight }          from "@/utilities/knight";
-import { king }            from "@/utilities/king";
 import { Cell, BoardType } from '@/types/common';
 import { Pieces, Teams }   from '@/types/enums';
 
@@ -37,30 +19,6 @@ export function Board() {
     const [lostBPieces, setLostBPieces] = useState<Cell[]>([]);
     const [gameOver, setGameOver] = useState<boolean>(false);
 
-    const getImage = (piece: Pieces, team: Teams) => {
-        switch(piece) {
-            case Pieces.PAWN: 
-                if(team === Teams.WHITE) return WhitePawn;
-                return BlackPawn;
-            case Pieces.ROOK  : 
-                if(team === Teams.WHITE) return WhiteRook;
-                return BlackRook;
-            case Pieces.BISHOP:
-                if(team === Teams.WHITE) return WhiteBishop;
-                return BlackBishop;
-            case Pieces.QUEEN :
-                if(team === Teams.WHITE) return WhiteQueen;
-                return BlackQueen;
-            case Pieces.KNIGHT:
-                if(team === Teams.WHITE) return WhiteKnight;
-                return BlackKnight;
-            case Pieces.KING: 
-                if(team === Teams.WHITE) return WhiteKing;
-                return BlackKing;
-            default: return "";
-        }
-    }
-
     const handleReset = () => {
         setBoard(init());
         setLostWPieces([]);
@@ -68,30 +26,6 @@ export function Board() {
         setTurn(Teams.WHITE);
         setGameOver(false);
     }
-
-    const getMovements = (piece: Cell) => {
-        if (piece.team !== turn || gameOver) return;
-        let movements = [];
-        switch (piece.type) {
-            case Pieces.PAWN  : movements = pawn(piece, board);   break;
-            case Pieces.ROOK  : movements = rook(piece, board);   break;
-            case Pieces.BISHOP: movements = bishop(piece, board); break;
-            case Pieces.QUEEN : movements = queen(piece, board);  break;
-            case Pieces.KNIGHT: movements = knight(piece, board); break;
-            default:  movements = king(piece, board);
-        }
-
-        setBoard(b => 
-            b.map((row) => 
-                row.map((cell) => {
-                    const foundMovement = movements.find(({ x, y }) => cell.x === x && cell.y === y);
-                    return { ...cell, highlight: foundMovement ? true : false };
-                })
-            )
-        )
-        
-        setActive(piece);
-    };
 
     const handleMove = (target: Cell) => {
         // only an active piece can move
@@ -134,7 +68,7 @@ export function Board() {
 
             <GameOver gameOver={gameOver} turn={turn} />
 
-            <LostPieces pieces={lostWPieces} getImage={getImage} />
+            <LostPieces pieces={lostWPieces} />
 
             <table className={classes.table}>
                 <thead>
@@ -153,7 +87,16 @@ export function Board() {
                                     onClick={col.highlight ? () => handleMove(col) : () => {}}
                                     className={`${classes.cell} ${col.highlight ? classes.cellHighlight : classes.cellNoHighlight}`}
                                 >
-                                    {col.type !== null && <Piece getMovements={getMovements} piece={col} src={getImage(col.type, col.team)} />}
+                                    {col.type !== null && 
+                                        <Piece 
+                                            piece={col} 
+                                            board={board} 
+                                            setBoard={setBoard} 
+                                            setActive={setActive} 
+                                            turn={turn} 
+                                            gameOver={gameOver} 
+                                        />
+                                    }
                                 </td>
                             )}
 
@@ -162,7 +105,7 @@ export function Board() {
                 </tbody>
             </table>
 
-            <LostPieces pieces={lostBPieces} getImage={getImage} />
+            <LostPieces pieces={lostBPieces} />
 
             <button className={classes.newGameBtn} onClick={handleReset}>Start New Game</button>
 
