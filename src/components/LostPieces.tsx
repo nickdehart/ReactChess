@@ -1,14 +1,14 @@
 import { useId } from 'react';
 import { createUseStyles } from 'react-jss';
 import { Cell } from '@/types/common';
-import { Pieces, Teams } from '@/types/enums';
+import { getImage } from "@/utilities/imageUtils";
 
 const useStyles = createUseStyles({
     span: { width: "100%" },
     img: { maxWidth: "30px" },
 })
 
-export function LostPieces({ pieces, getImage }: { pieces: Cell[], getImage: (piece: Pieces, team: Teams) => string }) {
+export function LostPieces({ pieces }: { pieces: Cell[] }) {
     const id = useId();
     const classes = useStyles();
 
