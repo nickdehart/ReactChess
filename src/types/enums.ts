@@ -13,3 +13,25 @@ export enum Pieces {
     KING = "KING",
     EMPTY = "EMPTY"
 }
+
+export enum Columns {
+    A,
+    B,
+    C,
+    D,
+    E,
+    F,
+    G,
+    H
+}
+
+export enum Rows {
+    ONE,
+    TWO,
+    THREE,
+    FOUR,
+    FIVE,
+    SIX,
+    SEVEN,
+    EIGHT
+}

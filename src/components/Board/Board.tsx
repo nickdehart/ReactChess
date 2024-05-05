@@ -6,7 +6,7 @@ import { LostPieces }      from "@/components/LostPieces";
 import { GameOver }        from "@/components/GameOver";
 import { init }            from "@/utilities/init";
 import { Cell, BoardType } from '@/types/common';
-import { Pieces, Teams }   from '@/types/enums';
+import { Pieces, Teams, Columns } from '@/types/enums';
 
 
 export function Board() {
@@ -18,7 +18,8 @@ export function Board() {
     const [lostBPieces, setLostBPieces] = useState<Cell[]>([]);
     const [gameOver, setGameOver] = useState<boolean>(false);
 
-    const handleReset = () => {
+
+    function handleReset() {
         setBoard(init());
         setLostWPieces([]);
         setLostBPieces([]);
@@ -26,16 +27,17 @@ export function Board() {
         setGameOver(false);
     }
 
-    const handleMove = (target: Cell) => {
-        // only an active piece can move
+
+    function handleTurnChange() {
+        setActive(null);
+        if (turn === Teams.WHITE) setTurn(Teams.BLACK);
+        else setTurn(Teams.WHITE);
+    }
+
+
+    function handleBoardUpdate(target: Cell, castle=false) {
         if(!active) return;
-
-        if (target.type === Pieces.KING) setGameOver(true);
         const targetPosition = board[target.y][target.x];
-
-        // Push lost pieces
-        if(target.team === Teams.WHITE) setLostWPieces(w => [ ...w, target]);
-        if(target.team === Teams.BLACK) setLostBPieces(b => [ ...b, target]);
 
         setBoard(b => 
             b.map((row) => 
@@ -49,17 +51,64 @@ export function Board() {
                     // set target to the new piece
                     const isTarget :boolean = cell.x === targetPosition.x && cell.y === targetPosition.y;
                     if(isTarget)
-                        return { ...cell, type: active.type, team: active.team, highlight: false };
+                        return { ...cell, type: active.type, team: active.team, highlight: false, hasMoved: true };
+
+                    if(castle && cell.y === target.y) {
+                        // remove right rook from H[1|8]
+                        if(target.x === Columns.G && cell.x === Columns.H)
+                            return { ...cell, type: Pieces.EMPTY, team: Teams.EMPTY, highlight: false };
+
+                        // put right rook into new F[1|8]
+                        if(target.x === Columns.G && cell.x === Columns.F)
+                            return { ...cell, type: Pieces.ROOK, team: active.team, highlight: false, hasMoved: true };
+
+                        // remove left rook from H[1|8]
+                        if(target.x === Columns.C && cell.x === Columns.A)
+                            return { ...cell, type: Pieces.EMPTY, team: Teams.EMPTY, highlight: false };
+
+                        // put left rook into new F[1|8]
+                        if(target.x === Columns.C && cell.x === Columns.D)
+                            return { ...cell, type: Pieces.ROOK, team: active.team, highlight: false, hasMoved: true };
+                    }
 
                     // make sure no cells are left highlighted
                     return { ...cell, highlight: false };
                 })
             )
         )
+    }
 
-        setActive(null);
-        if (turn === Teams.WHITE) setTurn(Teams.BLACK);
-        else setTurn(Teams.WHITE);
+
+    function isCastleMove(target: Cell) :boolean {
+        if(!active) return false;
+        if(active.type !== Pieces.KING) return false;
+
+        // castle right
+        if(active.y === target.y && active.x === Columns.E && target.x === Columns.G)
+            return true;
+
+        // castle left
+        if(active.y === target.y && active.x === Columns.E && target.x === Columns.C) 
+            return true;
+
+        return false;
+    }
+
+
+    function handleMove(target: Cell) {
+        // only an active piece can move
+        if(!active) return;
+
+        if (target.type === Pieces.KING) setGameOver(true);
+
+        // Push lost pieces
+        if(target.team === Teams.WHITE) setLostWPieces(w => [ ...w, target]);
+        if(target.team === Teams.BLACK) setLostBPieces(b => [ ...b, target]);
+
+        // Update board and change turns
+        if(isCastleMove(target)) handleBoardUpdate(target, true);
+        else handleBoardUpdate(target);
+        handleTurnChange();
     };
 
     return (
