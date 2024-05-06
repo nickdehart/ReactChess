@@ -6,7 +6,8 @@ import { LostPieces }      from "@/components/LostPieces";
 import { GameOver }        from "@/components/GameOver";
 import { init }            from "@/utilities/init";
 import { Cell, BoardType } from '@/types/common';
-import { Pieces, Teams, Columns } from '@/types/enums';
+import { Pieces, Teams, Columns, Rows } from '@/types/enums';
+import { PromotionModal } from "../PromotionModal";
 
 
 export function Board() {
@@ -14,9 +15,11 @@ export function Board() {
     const [board, setBoard] = useState<BoardType>(init());
     const [turn, setTurn] = useState<Teams>(Teams.WHITE);
     const [active, setActive] = useState<Cell | null>(null);
+    const [target, setTarget] = useState<Cell | null>(null);
     const [lostWPieces, setLostWPieces] = useState<Cell[]>([]);
     const [lostBPieces, setLostBPieces] = useState<Cell[]>([]);
     const [gameOver, setGameOver] = useState<boolean>(false);
+    const [open, setOpen] = useState<boolean>(false);
 
 
     function handleReset() {
@@ -30,12 +33,13 @@ export function Board() {
 
     function handleTurnChange() {
         setActive(null);
+        setTarget(null);
         if (turn === Teams.WHITE) setTurn(Teams.BLACK);
         else setTurn(Teams.WHITE);
     }
 
 
-    function handleBoardUpdate(target: Cell, castle=false) {
+    function handleBoardUpdate({ target, castle=false, promotion }: { target: Cell, castle?: boolean, promotion?: Pieces }) {
         if(!active) return;
         const targetPosition = board[target.y][target.x];
 
@@ -50,7 +54,9 @@ export function Board() {
 
                     // set target to the new piece
                     const isTarget :boolean = cell.x === targetPosition.x && cell.y === targetPosition.y;
-                    if(isTarget)
+                    if(isTarget && promotion)
+                        return { ...cell, type: promotion, team: active.team, highlight: false, hasMoved: true };
+                    else if(isTarget)
                         return { ...cell, type: active.type, team: active.team, highlight: false, hasMoved: true };
 
                     if(castle && cell.y === target.y) {
@@ -94,6 +100,19 @@ export function Board() {
         return false;
     }
 
+    function isPromotion(target: Cell) :boolean {
+        if(!active) return false;
+        if(active.type !== Pieces.PAWN) return false;
+
+        if(active.team === Teams.WHITE && target.y === Rows.ONE)
+            return true;
+
+        if(active.team === Teams.BLACK && target.y === Rows.EIGHT)
+            return true;
+
+        return false;
+    }
+
 
     function handleMove(target: Cell) {
         // only an active piece can move
@@ -106,8 +125,13 @@ export function Board() {
         if(target.team === Teams.BLACK) setLostBPieces(b => [ ...b, target]);
 
         // Update board and change turns
-        if(isCastleMove(target)) handleBoardUpdate(target, true);
-        else handleBoardUpdate(target);
+        if(isCastleMove(target)) handleBoardUpdate({ target, castle: true });
+        else if(isPromotion(target)) {
+            setOpen(true);
+            setTarget(target);
+            return;
+        }
+        else handleBoardUpdate({ target });
         handleTurnChange();
     };
 
@@ -156,6 +180,17 @@ export function Board() {
             <LostPieces pieces={lostBPieces} />
 
             <button className={classes.newGameBtn} onClick={handleReset}>Start New Game</button>
+
+            {active && target &&
+                <PromotionModal 
+                    active={active}
+                    target={target}
+                    open={open}
+                    setOpen={setOpen}
+                    handleTurnChange={handleTurnChange}
+                    handleBoardUpdate={handleBoardUpdate}
+                />
+            }
 
         </section>
     );
