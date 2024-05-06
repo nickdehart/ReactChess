@@ -1,0 +1,70 @@
+.modal {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: rgba(100, 100, 111, 0.3) 0px 7px 29px 0px;
+    background-color: white;
+    border: 1px solid rgb(240, 240, 240);
+    border-radius: 4px;
+    position:  absolute;
+    transform-origin: translate(50%, 50%);
+}
+
+.modalHeader {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.modalBody {
+    width: 100%;
+    padding: 16px;
+
+}
+
+.modalFooter {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.cancelBtn {
+    background-color: white;
+    border: 1px solid #d9d9d9;
+}
+.cancelBtn:hover {
+    color: #1677ff;
+    border-color: #1677ff;
+}
+
+.okBtn {
+    color: white;
+    background-color: #1677ff;
+    box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
+    margin-left: 8px;
+}
+.okBtn:hover {
+    background-color: #4096ff;
+}
+
+.closeBtn {
+    background-color: white;
+    border: none;
+    float: right;
+}
+.closeBtn:hover {
+    color: #1677ff;
+    border: none;
+}
+
+.mask {
+    background-color: rgba(0, 0, 0, 0.45);
+    position: fixed;
+    height: 100%;
+    width: 100%;
+}
