@@ -1,5 +1,9 @@
 ## React Chess
 
+The purpose of this project is to develop a chess game with as little third party libraries as possible. 
+It is a React project, so ideally React should be the only dependency.
+In reality some third party libraries would have made this easier.
+
 #### TODO:
 
 - Tests!
