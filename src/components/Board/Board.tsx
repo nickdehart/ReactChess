@@ -4,15 +4,15 @@ import classes             from './Board.module.css';
 import { Piece }           from "@/components/Piece";
 import { LostPieces }      from "@/components/LostPieces";
 import { GameOver }        from "@/components/GameOver";
-import { init }            from "@/utilities/init";
-import { Cell, BoardType } from '@/types/common';
-import { Pieces, Teams, Columns, Rows } from '@/types/enums';
-import { PromotionModal } from "../PromotionModal";
+import { PromotionModal }  from "@/components/PromotionModal";
+import { useBoard }        from "@/hooks/useBoard";
+import { Cell }            from '@/types/common';
+import { Pieces, Teams, Columns, Rows, ActionTypes } from '@/types/enums';
 
 
 export function Board() {
 
-    const [board, setBoard] = useState<BoardType>(init());
+    const [board, dispatch] = useBoard();
     const [turn, setTurn] = useState<Teams>(Teams.WHITE);
     const [active, setActive] = useState<Cell | null>(null);
     const [target, setTarget] = useState<Cell | null>(null);
@@ -23,7 +23,7 @@ export function Board() {
 
 
     function handleReset() {
-        setBoard(init());
+        dispatch({ type: ActionTypes.RESET });
         setLostWPieces([]);
         setLostBPieces([]);
         setTurn(Teams.WHITE);
@@ -36,52 +36,6 @@ export function Board() {
         setTarget(null);
         if (turn === Teams.WHITE) setTurn(Teams.BLACK);
         else setTurn(Teams.WHITE);
-    }
-
-
-    function handleBoardUpdate({ target, castle=false, promotion }: { target: Cell, castle?: boolean, promotion?: Pieces }) {
-        if(!active) return;
-        const targetPosition = board[target.y][target.x];
-
-        setBoard(b => 
-            b.map((row) => 
-                row.map((cell) => {
-
-                    // reset source position back to empty
-                    const isSource :boolean = cell.x === active.x && cell.y === active.y;
-                    if(isSource)
-                        return { ...cell, type: Pieces.EMPTY, team: Teams.EMPTY, highlight: false };
-
-                    // set target to the new piece
-                    const isTarget :boolean = cell.x === targetPosition.x && cell.y === targetPosition.y;
-                    if(isTarget && promotion)
-                        return { ...cell, type: promotion, team: active.team, highlight: false, hasMoved: true };
-                    else if(isTarget)
-                        return { ...cell, type: active.type, team: active.team, highlight: false, hasMoved: true };
-
-                    if(castle && cell.y === target.y) {
-                        // remove right rook from H[1|8]
-                        if(target.x === Columns.G && cell.x === Columns.H)
-                            return { ...cell, type: Pieces.EMPTY, team: Teams.EMPTY, highlight: false };
-
-                        // put right rook into new F[1|8]
-                        if(target.x === Columns.G && cell.x === Columns.F)
-                            return { ...cell, type: Pieces.ROOK, team: active.team, highlight: false, hasMoved: true };
-
-                        // remove left rook from H[1|8]
-                        if(target.x === Columns.C && cell.x === Columns.A)
-                            return { ...cell, type: Pieces.EMPTY, team: Teams.EMPTY, highlight: false };
-
-                        // put left rook into new F[1|8]
-                        if(target.x === Columns.C && cell.x === Columns.D)
-                            return { ...cell, type: Pieces.ROOK, team: active.team, highlight: false, hasMoved: true };
-                    }
-
-                    // make sure no cells are left highlighted
-                    return { ...cell, highlight: false };
-                })
-            )
-        )
     }
 
 
@@ -99,6 +53,7 @@ export function Board() {
 
         return false;
     }
+
 
     function isPromotion(target: Cell) :boolean {
         if(!active) return false;
@@ -125,15 +80,16 @@ export function Board() {
         if(target.team === Teams.BLACK) setLostBPieces(b => [ ...b, target]);
 
         // Update board and change turns
-        if(isCastleMove(target)) handleBoardUpdate({ target, castle: true });
+        if(isCastleMove(target)) dispatch({ type: ActionTypes.CASTLE, payload: { target, active } });
         else if(isPromotion(target)) {
             setOpen(true);
             setTarget(target);
             return;
         }
-        else handleBoardUpdate({ target });
+        else dispatch({ type: ActionTypes.STANDARD, payload: { target, active } });
         handleTurnChange();
     };
+
 
     return (
         <section className={classes.section}>
@@ -162,8 +118,6 @@ export function Board() {
                                     {col.type !== null && 
                                         <Piece 
                                             piece={col} 
-                                            board={board} 
-                                            setBoard={setBoard} 
                                             setActive={setActive} 
                                             turn={turn} 
                                             gameOver={gameOver} 
@@ -188,7 +142,6 @@ export function Board() {
                     open={open}
                     setOpen={setOpen}
                     handleTurnChange={handleTurnChange}
-                    handleBoardUpdate={handleBoardUpdate}
                 />
             }
 
