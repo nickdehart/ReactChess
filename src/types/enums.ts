@@ -35,3 +35,11 @@ export enum Rows {
     SEVEN,
     EIGHT
 }
+
+export enum ActionTypes {
+    STANDARD = "STANDARD",
+    CASTLE = "CASTLE",
+    PROMOTION = "PROMOTION",
+    RESET = "RESET",
+    HIGHLIGHT = "HIGHLIGHT"
+}

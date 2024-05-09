@@ -2,7 +2,8 @@ import classes from './PromotionModal.module.css';
 import { Modal } from "@/components/Modal";
 import { getImage } from "@/utilities/imageUtils";
 import { Cell } from '@/types/common';
-import { Pieces } from '@/types/enums';
+import { Pieces, ActionTypes } from '@/types/enums';
+import { useBoard } from '@/hooks/useBoard';
 
 
 interface PromotionModalProps {
@@ -11,18 +12,18 @@ interface PromotionModalProps {
     open: boolean,
     setOpen: React.Dispatch<React.SetStateAction<boolean>>, 
     handleTurnChange(): void,
-    handleBoardUpdate({ target, castle, promotion }: { target: Cell; castle?: boolean; promotion?: Pieces; }): void, 
 }
 
 
-export function PromotionModal({ active, target, open, setOpen, handleTurnChange, handleBoardUpdate }: PromotionModalProps) {
+export function PromotionModal({ active, target, open, setOpen, handleTurnChange }: PromotionModalProps) {
+    const [, dispatch] = useBoard();
 
     function onClose() {
         setOpen(false);
     }
 
     function handlePromotion(promotion: Pieces) {
-        handleBoardUpdate({ target, promotion });
+        dispatch({ type: ActionTypes.PROMOTION, payload: { active, target, promotion } });
         handleTurnChange();
         onClose();
     }
