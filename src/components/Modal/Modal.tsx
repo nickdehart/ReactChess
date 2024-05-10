@@ -13,6 +13,7 @@ interface ModalProps {
     onClose?: ()=>void,
     onOk?: ()=>void,
     maskClosable?: boolean,
+    modalClassName?: string,
     modalHeaderStyles?: CSSProperties,
     modalHeaderClassName?: string,
     modalBodyStyles?: CSSProperties,
@@ -33,6 +34,7 @@ export function Modal(props: ModalProps) {
         onClose=()=>{}, 
         onOk=()=>{}, 
         maskClosable=true, 
+        modalClassName='',
         modalHeaderStyles={},
         modalHeaderClassName='',
         modalBodyStyles={},
@@ -46,7 +48,7 @@ export function Modal(props: ModalProps) {
             {open && createPortal(
                 <>
                     <span className={classes.mask} onClick={maskClosable ? onClose : ()=>{}}/>
-                    <dialog className={classes.modal} style={{ width }}>
+                    <dialog className={`${classes.modal} ${modalClassName}`} style={{ width }}>
 
                         {header &&
                             <header className={`${classes.modalHeader} ${modalHeaderClassName}`} style={modalHeaderStyles}>
