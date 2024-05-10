@@ -2,7 +2,8 @@
 .section {
     width: 100%;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .newGameBtn {
@@ -14,11 +15,15 @@
 
 .table { 
     width: fit-content;
+    border-spacing: 1px;
     tbody > tr:nth-child(odd) td:not(:first-child):nth-child(even) {
-        background-color: #61dafb;
+        /* background-color: #61dafb; */
+        background-color: var(--color3);
+
     }
     tbody > tr:nth-child(even) td:not(:first-child):nth-child(odd) {
-        background-color: #61dafb;
+        /* background-color: #61dafb; */
+        background-color: var(--color3);
     }
 }
 
@@ -28,7 +33,7 @@
 }
 
 .cellHighlight {
-    border: 1px solid red;
+    border: 1px solid var(--highlight-color);
     cursor: pointer;
 }
 

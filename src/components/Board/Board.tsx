@@ -6,37 +6,17 @@ import { LostPieces }      from "@/components/LostPieces";
 import { GameOver }        from "@/components/GameOver";
 import { PromotionModal }  from "@/components/PromotionModal";
 import { useBoard }        from "@/hooks/useBoard";
+import { useGame }         from "@/hooks/useGame";
 import { Cell }            from '@/types/common';
-import { Pieces, Teams, Columns, Rows, ActionTypes } from '@/types/enums';
+import { Pieces, Teams, Columns, Rows } from '@/types/enums';
 
 
 export function Board() {
 
-    const [board, dispatch] = useBoard();
-    const [turn, setTurn] = useState<Teams>(Teams.WHITE);
-    const [active, setActive] = useState<Cell | null>(null);
-    const [target, setTarget] = useState<Cell | null>(null);
-    const [lostWPieces, setLostWPieces] = useState<Cell[]>([]);
-    const [lostBPieces, setLostBPieces] = useState<Cell[]>([]);
-    const [gameOver, setGameOver] = useState<boolean>(false);
+    const { board, castle, move } = useBoard();
+    const { game, setTarget, setLostWhitePieces, setLostBlackPieces, setGameOverStatus } = useGame();
+    const { turn, active, lostWhitePieces, lostBlackPieces, gameOverStatus } = game;
     const [open, setOpen] = useState<boolean>(false);
-
-
-    function handleReset() {
-        dispatch({ type: ActionTypes.RESET });
-        setLostWPieces([]);
-        setLostBPieces([]);
-        setTurn(Teams.WHITE);
-        setGameOver(false);
-    }
-
-
-    function handleTurnChange() {
-        setActive(null);
-        setTarget(null);
-        if (turn === Teams.WHITE) setTurn(Teams.BLACK);
-        else setTurn(Teams.WHITE);
-    }
 
 
     function isCastleMove(target: Cell) :boolean {
@@ -73,30 +53,29 @@ export function Board() {
         // only an active piece can move
         if(!active) return;
 
-        if (target.type === Pieces.KING) setGameOver(true);
+        if (target.type === Pieces.KING) setGameOverStatus(true);
 
         // Push lost pieces
-        if(target.team === Teams.WHITE) setLostWPieces(w => [ ...w, target]);
-        if(target.team === Teams.BLACK) setLostBPieces(b => [ ...b, target]);
+        if(target.team === Teams.WHITE) setLostWhitePieces(target);
+        if(target.team === Teams.BLACK) setLostBlackPieces(target);
 
         // Update board and change turns
-        if(isCastleMove(target)) dispatch({ type: ActionTypes.CASTLE, payload: { target, active } });
+        if(isCastleMove(target)) castle({ target, active });
         else if(isPromotion(target)) {
             setOpen(true);
             setTarget(target);
             return;
         }
-        else dispatch({ type: ActionTypes.STANDARD, payload: { target, active } });
-        handleTurnChange();
+        else move({ target, active });
     };
 
 
     return (
         <section className={classes.section}>
 
-            <GameOver gameOver={gameOver} turn={turn} />
+            <GameOver gameOver={gameOverStatus} turn={turn} />
 
-            <LostPieces pieces={lostWPieces} />
+            <LostPieces pieces={lostWhitePieces} />
 
             <table className={classes.table}>
                 <thead>
@@ -115,14 +94,7 @@ export function Board() {
                                     onClick={col.highlight ? () => handleMove(col) : () => {}}
                                     className={`${classes.cell} ${col.highlight ? classes.cellHighlight : classes.cellNoHighlight}`}
                                 >
-                                    {col.type !== null && 
-                                        <Piece 
-                                            piece={col} 
-                                            setActive={setActive} 
-                                            turn={turn} 
-                                            gameOver={gameOver} 
-                                        />
-                                    }
+                                    {col.type !== null && <Piece piece={col} />}
                                 </td>
                             )}
 
@@ -131,19 +103,11 @@ export function Board() {
                 </tbody>
             </table>
 
-            <LostPieces pieces={lostBPieces} />
+            <LostPieces pieces={lostBlackPieces} />
 
-            <button className={classes.newGameBtn} onClick={handleReset}>Start New Game</button>
+            {/* <button className={classes.newGameBtn} onClick={handleReset}>Start New Game</button> */}
 
-            {active && target &&
-                <PromotionModal 
-                    active={active}
-                    target={target}
-                    open={open}
-                    setOpen={setOpen}
-                    handleTurnChange={handleTurnChange}
-                />
-            }
+            <PromotionModal open={open} setOpen={setOpen} />
 
         </section>
     );

@@ -1,23 +1,23 @@
 import { ReactNode, createContext, useReducer } from "react";
 import { BoardType, Cell } from "@/types/common";
-import { Pieces, ActionTypes } from "@/types/enums";
+import { Pieces, BoardActions } from "@/types/enums";
 import { reducer } from "./board.reducer";
 import { init } from "@/utilities/init";
 import { MovementType } from '@/types/common';
 
-export type BoardStateType = BoardType;
-
-export interface BoardAction {
-    type: ActionTypes;
-    payload?: {
-        active?: Cell,
-        target?: Cell,
-        promotion?: Pieces,
-        movements?: MovementType[]
-    };
+export interface BoardActionPayload {
+    active?: Cell,
+    target?: Cell,
+    promotion?: Pieces,
+    movements?: MovementType[]
 }
 
-const State = createContext<BoardStateType>(init());
+export interface BoardAction {
+    type: BoardActions;
+    payload?: BoardActionPayload;
+}
+
+const State = createContext<BoardType>(init());
 const Dispatch = createContext<React.Dispatch<BoardAction>>(()=>{});
 
 function Provider({ children }: { children: ReactNode }) :ReactNode {
