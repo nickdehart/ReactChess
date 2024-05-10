@@ -1,29 +1,25 @@
-import classes             from './Piece.module.css';
-import { useBoard }        from '@/hooks/useBoard';
-import { getImage }        from "@/utilities/imageUtils";
-import { pawn }            from "@/utilities/pawn";
-import { rook }            from "@/utilities/rook";
-import { bishop }          from "@/utilities/bishop";
-import { queen }           from "@/utilities/queen";
-import { knight }          from "@/utilities/knight";
-import { king }            from "@/utilities/king";
-import { Cell }            from '@/types/common';
-import { Pieces, Teams, ActionTypes } from '@/types/enums';
+import classes     from './Piece.module.css';
+import { useBoard }from '@/hooks/useBoard';
+import { useGame } from "@/hooks/useGame";
+import { getImage }from "@/utilities/imageUtils";
+import { pawn }    from "@/utilities/pawn";
+import { rook }    from "@/utilities/rook";
+import { bishop }  from "@/utilities/bishop";
+import { queen }   from "@/utilities/queen";
+import { knight }  from "@/utilities/knight";
+import { king }    from "@/utilities/king";
+import { Cell }    from '@/types/common';
+import { Pieces }  from '@/types/enums';
 
 
-interface PieceProps {
-    piece: Cell,
-    setActive: React.Dispatch<React.SetStateAction<Cell | null>>, 
-    turn: Teams, 
-    gameOver: boolean
-}
+export function Piece({ piece }: { piece: Cell }) {
+    const { board, highlight } = useBoard();
+    const { game, setActive } = useGame();
+    const { turn, gameOverStatus } = game;
 
-
-export function Piece({ piece, setActive, turn, gameOver }: PieceProps) {
-    const [board, dispatch] = useBoard();
 
     const getMovements = (piece: Cell) => {
-        if (piece.team !== turn || gameOver) return;
+        if (piece.team !== turn || gameOverStatus) return;
         let movements = [];
         switch (piece.type) {
             case Pieces.PAWN  : movements = pawn(piece, board);   break;
@@ -34,7 +30,7 @@ export function Piece({ piece, setActive, turn, gameOver }: PieceProps) {
             default:  movements = king(piece, board);
         }
 
-        dispatch({ type: ActionTypes.HIGHLIGHT, payload: { movements } });
+        highlight(movements);
         setActive(piece);
     };
 
