@@ -1,0 +1,19 @@
+
+.header {
+    width: 100vw;
+    padding: 15px 0px;
+    color: var(--color3);
+    background-color: var(--color2);
+    display: flex;
+    justify-content: space-between;
+}
+
+.header > h1 {
+    margin-left: 40px;
+}
+
+.header > button {
+    margin: 1em 40px;
+    color: var(--color2);
+    background-color: var(--color3);
+}
