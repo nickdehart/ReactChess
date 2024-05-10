@@ -1,5 +1,5 @@
 import { BoardType } from '@/types/common';
-import { Pieces, Teams, Columns, ActionTypes } from '@/types/enums';
+import { Pieces, Teams, Columns, BoardActions } from '@/types/enums';
 import { init } from "@/utilities/init";
 import { BoardAction } from './board';
 
@@ -8,9 +8,9 @@ export function reducer(state: BoardType, action: BoardAction) :BoardType {
     const { type, payload } = action;
     const { active, target, promotion, movements } = payload || {};
 
-    if(type === ActionTypes.RESET) return init();
+    if(type === BoardActions.RESET) return init();
 
-    if(type === ActionTypes.HIGHLIGHT && movements) {
+    if(type === BoardActions.HIGHLIGHT && movements) {
         return state.map((row) => 
             row.map((cell) => {
                 const foundMovement = movements.find(({ x, y }) => cell.x === x && cell.y === y);
@@ -32,12 +32,12 @@ export function reducer(state: BoardType, action: BoardAction) :BoardType {
             if(isSource) return { ...cell, type: Pieces.EMPTY, team: Teams.EMPTY, highlight: false };
 
             // always set target piece, either to source piece type, or promotion piece type
-            if(type === ActionTypes.PROMOTION && isTarget && promotion)
+            if(type === BoardActions.PROMOTION && isTarget && promotion)
                 return { ...cell, type: promotion, team: active.team, highlight: false, hasMoved: true };
             if(isTarget) return { ...cell, type: active.type, team: active.team, highlight: false, hasMoved: true };
 
             // handle moving rook around during castle
-            if(type === ActionTypes.CASTLE && cell.y === target.y) {
+            if(type === BoardActions.CASTLE && cell.y === target.y) {
                 // remove right rook from H[1|8]
                 if(target.x === Columns.G && cell.x === Columns.H)
                     return { ...cell, type: Pieces.EMPTY, team: Teams.EMPTY, highlight: false };
