@@ -8,6 +8,9 @@
 .gameOver > h2 {
     margin-top: 0px;
 }
+.gameOver > button {
+    width: 100%;
+}
 
 .gameOverModal {
     background-color: var(--color3);

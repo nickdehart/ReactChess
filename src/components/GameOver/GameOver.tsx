@@ -1,9 +1,11 @@
 import classes from './GameOver.module.css';
-import { Teams } from '@/types/enums';
 import { Modal } from "@/components/Modal";
+import { useBoard } from '@/hooks/useBoard';
+import { Teams } from '@/types/enums';
 
 
 export function GameOver({ gameOver, turn }: { gameOver: boolean, turn: Teams }) {
+    const { reset } = useBoard();
 
     if(gameOver)
         return (
@@ -11,6 +13,7 @@ export function GameOver({ gameOver, turn }: { gameOver: boolean, turn: Teams })
                 <div className={classes.gameOver}>
                     <h1>GAME OVER</h1>
                     <h2>{turn === Teams.WHITE ? "Black" : "White"} Team Wins!</h2>
+                    <button onClick={() => reset()}>New Game</button>
                 </div>
             </Modal>
         );
