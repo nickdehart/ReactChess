@@ -14,6 +14,4 @@
 
 .header > button {
     margin: 1em 40px;
-    color: var(--color2);
-    background-color: var(--color3);
 }
