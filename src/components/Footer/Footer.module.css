@@ -1,0 +1,24 @@
+
+.footer {
+    width: 100vw;
+    padding: 20px 0px;
+    background-color: var(--color3);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.footerLink {
+    color: var(--color2);
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-right: 20px;
+    font-weight: 500;
+}
+
+.gitgubIcon {
+    max-width: 24px;
+    max-height: 24px;
+}
