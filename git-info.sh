@@ -8,5 +8,7 @@ VERSION=`cat package.json \
 REVISION=`git rev-parse --short HEAD`
 BRANCH=`git rev-parse --abbrev-ref HEAD`
 
-echo "VITE_GIT_INFO=$($BRANCH-v$VERSION-$REVISION)" >> $GITHUB_ENV
-echo "$BRANCH-v$VERSION-$REVISION"
+VITE_GIT_INFO="$BRANCH-v$VERSION-$REVISION"
+export VITE_GIT_INFO
+set VITE_GIT_INFO="$BRANCH-v$VERSION-$REVISION"
+echo $VITE_GIT_INFO
