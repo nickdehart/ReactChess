@@ -4,7 +4,8 @@ The purpose of this project is to develop a chess game with as little third part
 It is a React project, so ideally React should be the only dependency.
 In reality some third party libraries would have made this easier.
 
-- [GitHub Pages Link](https://nickdehart.github.io/ReactChess/){:target="_blank"}
+#### GitHub Pages Link
+- [https://nickdehart.github.io/ReactChess/](https://nickdehart.github.io/ReactChess/)
 
 #### TODO:
 
