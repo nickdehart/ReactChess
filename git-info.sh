@@ -6,5 +6,5 @@ VERSION=`cat package.json \
     | tr -d '[[:space:]]'`
 
 REVISION=`git rev-parse --short HEAD`
-BRANCH=`git rev-parse --abbrev-ref HEAD1`
+BRANCH=`git rev-parse --abbrev-ref HEAD`
 echo "$BRANCH-v$VERSION-$REVISION"
