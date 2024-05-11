@@ -8,7 +8,4 @@ VERSION=`cat package.json \
 REVISION=`git rev-parse --short HEAD`
 BRANCH=`git rev-parse --abbrev-ref HEAD`
 
-VITE_GIT_INFO="$BRANCH-v$VERSION-$REVISION"
-export VITE_GIT_INFO
-set VITE_GIT_INFO="$BRANCH-v$VERSION-$REVISION"
-echo $VITE_GIT_INFO
+echo "$BRANCH-v$VERSION-$REVISION"
