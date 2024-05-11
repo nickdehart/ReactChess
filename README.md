@@ -4,15 +4,18 @@ The purpose of this project is to develop a chess game with as little third part
 It is a React project, so ideally React should be the only dependency.
 In reality some third party libraries would have made this easier.
 
+- [GitHub Pages Link](https://nickdehart.github.io/ReactChess/){:target="_blank"}
+
 #### TODO:
 
+- Fix LostPieces component and figure out where it's going to be.
 - Tests!
 - Logic impovements.
 - Check and Checkmate states.
 - UI improvements.
 - Undo last move.
 
-![alt text](./example.gif)
+<!-- ![alt text](./example.gif) -->
 
 # React + TypeScript + Vite
 
