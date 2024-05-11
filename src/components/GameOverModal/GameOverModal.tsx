@@ -1,10 +1,10 @@
-import classes from './GameOver.module.css';
+import classes from './GameOverModal.module.css';
 import { Modal } from "@/components/Modal";
 import { useBoard } from '@/hooks/useBoard';
 import { Teams } from '@/types/enums';
 
 
-export function GameOver({ gameOver, turn }: { gameOver: boolean, turn: Teams }) {
+export function GameOverModal({ gameOver, turn }: { gameOver: boolean, turn: Teams }) {
     const { reset } = useBoard();
 
     if(gameOver)
