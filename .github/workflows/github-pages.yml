@@ -41,6 +41,8 @@ jobs:
         run: chmod +x ${PWD}/git-info.sh
       - name: Run shell script
         run: ${PWD}/git-info.sh
+      - name: Test
+        run: echo $VITE_GIT_INFO
       - name: Build
         run: npm run build
       - name: Setup Pages
