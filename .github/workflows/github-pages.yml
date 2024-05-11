@@ -37,6 +37,8 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
+      - name: Run shell script
+        run: ${PWD}/git-info.sh
       - name: Build
         run: npm run build
       - name: Setup Pages
