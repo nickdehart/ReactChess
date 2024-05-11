@@ -23,11 +23,11 @@ export function LostPieces() {
 
     return (
         <aside className={classes.lostPiecesContainer}>
-            <div className={classes.teamContainer}>
+            <div className={classes.teamWhiteContainer}>
                 <b>Taken White Pieces</b>
                 <span className={classes.imageContainer}>{mapPieces(lostWhitePieces)}</span>
             </div>
-            <div className={classes.teamContainer}>
+            <div className={classes.teamBlackContainer}>
                 <b>Taken Black Pieces</b>
                 <span className={classes.imageContainer}>{mapPieces(lostBlackPieces)}</span>
             </div>

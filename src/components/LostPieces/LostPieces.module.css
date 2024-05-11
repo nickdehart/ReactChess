@@ -11,13 +11,20 @@
     flex-direction: column;
     border-radius: var(--app-border-radius);
     margin: 10px 20px;
-    padding: 10px 20px;
+    padding: 20px 20px;
 }
 
-.teamContainer {
+.teamWhiteContainer {
     height: 50%;
     display: flex;
     flex-direction: column;
+}
+
+.teamBlackContainer {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
 }
 
 .imageContainer {
