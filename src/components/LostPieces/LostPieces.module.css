@@ -1,2 +1,33 @@
-.span { width: 100% }
-.img { max-width: 30px }
+.img {
+    width: 30px;
+    height: 30px;
+}
+
+.lostPiecesContainer { 
+    width: 300px;
+    height: 50%;
+    background-color: var(--color3);
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--app-border-radius);
+    margin: 10px 20px;
+    padding: 10px 20px;
+}
+
+.teamContainer {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.imageContainer {
+    margin-top: 10px;
+    background-color: white;
+    height: 75px;
+    border-radius: var(--app-border-radius);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}

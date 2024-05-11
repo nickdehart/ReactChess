@@ -2,6 +2,8 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  width: 100vw;
+  height: 100vh;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,6 +15,7 @@
   --color3: #a7bcb9;
   --color4: #e0ebeb;
   --highlight-color: #ff5722;
+  --app-border-radius: 4px;
   background-color: var(--color4);
 
 }
@@ -26,7 +29,7 @@ body {
 }
 
 button {
-  border-radius: 8px;
+  border-radius: var(--app-border-radius);
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
@@ -35,8 +38,8 @@ button {
   color: var(--color2);
   background-color: var(--color3);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: 1px solid #646cff;
 }

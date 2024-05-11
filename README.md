@@ -9,6 +9,7 @@ In reality some third party libraries would have made this easier.
 
 #### TODO:
 
+- Mobile friendly responsiveness...
 - Fix LostPieces component and figure out where it's going to be.
 - Tests!
 - Logic impovements.

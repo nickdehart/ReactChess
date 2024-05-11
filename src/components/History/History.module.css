@@ -1,0 +1,15 @@
+.historyContainer { 
+    width: 300px;
+    height: 50%;
+    background-color: var(--color3);
+    border-radius: var(--app-border-radius);
+    margin: 10px 20px;
+    padding: 10px 20px;
+}
+
+.history {
+    background-color: white;
+    border-radius: var(--app-border-radius);
+    margin-top: 10px;
+    height: 80%;
+}

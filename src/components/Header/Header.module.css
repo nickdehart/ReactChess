@@ -13,5 +13,7 @@
 }
 
 .header > button {
-    margin: 1em 40px;
+    margin: auto 20px;
+    width: 130px;
+    height: 50px;
 }
