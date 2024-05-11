@@ -13,13 +13,13 @@
         /* background-color: #61dafb; */
         background-color: var(--color3);
     }
-    tbody > tr > td:not(:first-child) {
+    /* tbody > tr > td:not(:first-child) {
         min-width: 79px;
-    }
+    } */
     button {
         height: 100%;
         width: 100%;
-        padding: auto;
+        padding: 0px;
     }
 }
 
@@ -39,10 +39,8 @@
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-    .table { 
-        tbody > tr > td:not(:first-child) {
-            min-width: 40px;
-        }
+    .table > tbody > tr > td:not(:first-child) { 
+        width: 40px;
     }
     .cell {
         height: 32px;
@@ -56,10 +54,8 @@
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-    .table { 
-        tbody > tr > td:not(:first-child) {
-            min-width: 55px;
-        }
+    .table > tbody > tr > td:not(:first-child) { 
+        width: 55px;
     }
     .cell {
         height: 44px;
@@ -73,10 +69,8 @@
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-    .table { 
-        tbody > tr > td:not(:first-child) {
-            min-width: 79px;
-        }
+    .table > tbody > tr > td:not(:first-child) { 
+        width: 79px;
     }
     .cell {
         height: 64px;
