@@ -74,15 +74,11 @@ export function Game() {
     return (
         <section className={classes.section}>
 
-            <div className={classes.gameContainer}>
+            <Board handleMove={handleMove} />
 
-                <div className={classes.histLostContainer}>
-                    <LostPieces />
-                    <History />
-                </div>
-
-                <Board handleMove={handleMove} />
-
+            <div className={classes.histLostContainer}>
+                <LostPieces />
+                <History />
             </div>
 
             <GameOverModal gameOver={gameOverStatus} turn={turn} />

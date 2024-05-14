@@ -2,8 +2,8 @@
 .header {
     width: 100vw;
     padding: 15px 0px;
-    color: var(--color3);
-    background-color: var(--color2);
+    color: var(--color1);
+    background: linear-gradient(to right, #0987A0, #805AD5);
     display: flex;
     justify-content: space-between;
 }

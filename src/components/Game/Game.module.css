@@ -1,24 +1,48 @@
 .section {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 0px
+    display: grid;
+    padding: 40px 0px;
 }
 
 .gameContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
+    display: grid;
     min-height: 100%;
     width: 100%;
     padding: 0px 20px;
 }
 
 .histLostContainer {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+/* Medium devices (1024px and down) */
+@media only screen and (max-width: 1024px) {
+    .section { 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .histLostContainer {
+        width: 50%;
+    }
+}
+
+
+/* Small-Medium devices (768px and down) */
+@media only screen and (max-width: 768px) {
+    .histLostContainer {
+        width: 75%;
+    }
+}
+
+/* Small devices (600px and down) */
+@media only screen and (max-width: 600px) {
+    .histLostContainer {
+        width: 95%;
+    }
 }

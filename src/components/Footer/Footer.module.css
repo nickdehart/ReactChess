@@ -2,13 +2,14 @@
 .footer {
     width: 100vw;
     padding: 20px 0px;
-    background-color: var(--color3);
     display: flex;
     justify-content: flex-end;
+    border-top: 2px solid var(--app-border-color)
 }
 
 .footerLink {
-    color: var(--color2);
+    color: var(--text-color);
+    font-size: small;
     text-decoration: none;
     display: flex;
     justify-content: center;
@@ -19,6 +20,6 @@
 }
 
 .gitgubIcon {
-    max-width: 24px;
-    max-height: 24px;
+    max-width: 20px;
+    max-height: 20px;
 }
