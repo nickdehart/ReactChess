@@ -4,6 +4,11 @@
     max-width: 100vw;
     border-spacing: 1px;
     margin: 10px 20px;
+    justify-self: end;
+    grid-column-start: 3;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 3;
     tbody > tr:nth-child(odd) td:not(:first-child):nth-child(even) {
         /* background-color: #61dafb; */
         background-color: var(--color3);
@@ -13,9 +18,6 @@
         /* background-color: #61dafb; */
         background-color: var(--color3);
     }
-    /* tbody > tr > td:not(:first-child) {
-        min-width: 79px;
-    } */
     button {
         height: 100%;
         width: 100%;

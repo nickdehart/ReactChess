@@ -3,21 +3,22 @@
   line-height: 1.5;
   font-weight: 400;
   width: 100vw;
-  /* height: 100vh; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --color1: #5dacbd;
+  --color1: #E6FFFA;
   --color2: #24527a;
-  --color3: #a7bcb9;
-  --color4: #e0ebeb;
+  --color3: #38B2AC;
+  --color4: #EDF2F7;
+  --text-color: #2D3748;
   --highlight-color: #ff5722;
-  --app-border-radius: 4px;
+  --app-border-radius: .5rem;
+  --app-border-color: #E2E8F0;
   background-color: var(--color4);
-
+  color: var(--text-color);
 }
 
 body {
@@ -36,7 +37,7 @@ button {
   font-weight: 500;
   font-family: inherit;
   color: var(--color2);
-  background-color: var(--color3);
+  background-color: var(--color4);
   cursor: pointer;
   transition: border 0.25s;
 }
