@@ -4,7 +4,10 @@
 }
 
 .lostPiecesContainer { 
-    width: auto;
+    /* width: auto; */
+    width: -webkit-fill-available;
+    height: 90%;
+    max-width: 20%;
     background-color: var(--color3);
     display: flex;
     flex-direction: column;
@@ -17,6 +20,7 @@
     height: 50%;
     display: flex;
     flex-direction: column;
+    min-height: 110px;
 }
 
 .teamBlackContainer {
@@ -24,16 +28,39 @@
     display: flex;
     flex-direction: column;
     padding-top: 20px;
+    min-height: 110px;
 }
 
 .imageContainer {
     margin-top: 10px;
+    height: 90%;
     background-color: white;
-    height: 75px;
     border-radius: var(--app-border-radius);
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: flex-start;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .lostPiecesContainer { 
+        max-width: 90%;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .lostPiecesContainer { 
+        max-width: 70%;
+    }
+}
+
+/* Medium devices (landscape tablets, 1024px and up) */
+@media only screen and (min-width: 1024px) {
+    .lostPiecesContainer { 
+        height: 90%;
+        max-width: 20%;
+    }
 }

@@ -4,6 +4,7 @@ import { BoardStore } from "@/store/board";
 import { BoardActionPayload } from "@/store/board";
 import { BoardActions } from "@/types/enums";
 import { BoardType } from "@/types/common";
+import { useHistory } from "./useHistory";
 
 
 interface useBoardReturnType {
@@ -30,6 +31,7 @@ export function useBoard() :useBoardReturnType {
     const board = useContext(BoardStore.State);
     const dispatch = useContext(BoardStore.Dispatch);
     const { changeTurn, setActive, setTarget, reset: gameReset } = useGame();
+    const { reset: historyReset } = useHistory();
 
     const handleTurnChange = () => {
         setActive(null);
@@ -55,6 +57,7 @@ export function useBoard() :useBoardReturnType {
     const reset = () => {
         dispatch({ type: BoardActions.RESET });
         gameReset();
+        historyReset();
     }
 
     const highlight = (movements: BoardActionPayload['movements']) => {

@@ -53,3 +53,8 @@ export enum GameActions {
     UPDATE_GAME_OVER_STATUS = "UPDATE_GAME_OVER_STATUS",
     RESET = "RESET",
 }
+
+export enum HistoryActions {
+    ADD = "ADD",
+    RESET = "RESET",
+}

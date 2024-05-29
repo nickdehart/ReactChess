@@ -8,6 +8,7 @@ import { GameOverModal }   from "@/components/GameOverModal";
 import { PromotionModal }  from "@/components/PromotionModal";
 import { useBoard }        from "@/hooks/useBoard";
 import { useGame }         from "@/hooks/useGame";
+import { useHistory }      from "@/hooks/useHistory";
 import { Cell }            from '@/types/common';
 import { Pieces, Teams, Columns, Rows } from '@/types/enums';
 
@@ -16,6 +17,7 @@ export function Game() {
 
     const { castle, move } = useBoard();
     const { game, setTarget, setLostWhitePieces, setLostBlackPieces, setGameOverStatus } = useGame();
+    const { add } = useHistory();
     const { turn, active, gameOverStatus } = game;
     const [open, setOpen] = useState<boolean>(false);
 
@@ -54,6 +56,8 @@ export function Game() {
         // only an active piece can move
         if(!active) return;
 
+        add({ origin: active, destination: target});
+
         if (target.type === Pieces.KING) setGameOverStatus(true);
 
         // Push lost pieces
@@ -68,18 +72,15 @@ export function Game() {
             return;
         }
         else move({ target, active });
-    };
+    }
 
 
     return (
         <section className={classes.section}>
 
+            <History />
             <Board handleMove={handleMove} />
-
-            <div className={classes.histLostContainer}>
-                <LostPieces />
-                <History />
-            </div>
+            <LostPieces />
 
             <GameOverModal gameOver={gameOverStatus} turn={turn} />
             <PromotionModal open={open} setOpen={setOpen} />
