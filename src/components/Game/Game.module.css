@@ -1,11 +1,17 @@
 .section {
     width: 100%;
-    display: grid;
     padding: 40px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .gameContainer {
-    display: grid;
+    /* display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; */
     min-height: 100%;
     width: 100%;
     padding: 0px 20px;
