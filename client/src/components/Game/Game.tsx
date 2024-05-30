@@ -1,4 +1,4 @@
-import { useState }        from "react";
+import { useEffect, useState } from "react";
 import classes             from './Game.module.css';
 
 import { Board }           from "@/components/Board";
@@ -11,15 +11,22 @@ import { useGame }         from "@/hooks/useGame";
 import { useHistory }      from "@/hooks/useHistory";
 import { Cell }            from '@/types/common';
 import { Pieces, Teams, Columns, Rows } from '@/types/enums';
+import { post } from "@/utilities/post";
 
 
 export function Game() {
 
-    const { castle, move } = useBoard();
+    const { board, castle, move } = useBoard();
     const { game, setTarget, setLostWhitePieces, setLostBlackPieces, setGameOverStatus } = useGame();
     const { add } = useHistory();
     const { turn, active, gameOverStatus } = game;
     const [open, setOpen] = useState<boolean>(false);
+
+    useEffect(() => {
+        if(turn === Teams.BLACK) {
+            post(import.meta.env.VITE_CHESS_ENGINE, { board })
+        }
+    }, [turn, board])
 
 
     function isCastleMove(target: Cell) :boolean {
