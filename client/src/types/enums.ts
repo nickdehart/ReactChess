@@ -58,3 +58,23 @@ export enum HistoryActions {
     ADD = "ADD",
     RESET = "RESET",
 }
+
+export enum FenBlackMap {
+    PAWN = "p",
+    ROOK = "r",
+    BISHOP = "b",
+    QUEEN = "q",
+    KNIGHT = "n",
+    KING = "k",
+    EMPTY = "EMPTY"
+}
+
+export enum FenWhiteMap {
+    PAWN = "P",
+    ROOK = "R",
+    BISHOP = "B",
+    QUEEN = "Q",
+    KNIGHT = "N",
+    KING = "K",
+    EMPTY = "EMPTY"
+}
