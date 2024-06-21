@@ -10,7 +10,7 @@ export function init() :BoardType {
 
     // get array of nums [0, 1, 2, 3, 4, 5, 6, 7]
     const squares = [...Array(BOARD_SIZE).keys()];
-    let board: BoardType = [];
+    const board: BoardType = [];
 
     squares.forEach(row => {
 

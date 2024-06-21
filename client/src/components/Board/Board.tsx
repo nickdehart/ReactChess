@@ -2,7 +2,7 @@ import classes      from './Board.module.css';
 import { Piece }    from "@/components/Piece";
 import { useBoard } from "@/hooks/useBoard";
 import { Cell }     from '@/types/common';
-
+import { BOARD_SIZE } from '@/types/constants';
 
 export function Board({ handleMove }: { handleMove: (target: Cell)=>void }) {
     const { board } = useBoard();
@@ -17,7 +17,7 @@ export function Board({ handleMove }: { handleMove: (target: Cell)=>void }) {
                 {board.map((row, rowIndex) => (
                     <tr key={`row-${rowIndex}`}>
 
-                        <td><b>{rowIndex + 1}</b></td>
+                        <td><b>{BOARD_SIZE - rowIndex}</b></td>
 
                         {row.map((col, colIndex) => 
                             <td
