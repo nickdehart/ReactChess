@@ -28,6 +28,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+      - name: Change to Client Directory
+        run: cd client
       - name: Checkout
         uses: actions/checkout@v4
       - name: Set up Node
@@ -35,8 +37,6 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-      - name: Change to Client Directory
-        run: cd client
       - name: Install dependencies
         run: npm ci
       - name: grant permissions to shell script
