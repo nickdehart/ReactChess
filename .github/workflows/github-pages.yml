@@ -28,8 +28,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Change to Client Directory
-        run: cd client
       - name: Checkout
         uses: actions/checkout@v4
       - name: Set up Node
@@ -38,18 +36,18 @@ jobs:
           node-version: 20
           cache: 'npm'
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --prefix client
       - name: grant permissions to shell script
-        run: chmod +x ${PWD}/git-info.sh
+        run: chmod +x ${PWD}/client/git-info.sh
       - name: Build
-        run: npm run build
+        run: npm run build --prefix client
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload dist folder
-          path: './dist'
+          path: './client/dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
