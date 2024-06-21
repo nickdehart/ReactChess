@@ -34,7 +34,7 @@ function isValidAttack(target: Cell | undefined, team: Teams) :boolean {
  * @returns - an array of possible movement locations for a pawn
  */
 export function pawn(piece: Cell, board: BoardType) :MovementType[] {
-    let moves :MovementType[] = [];
+    const moves :MovementType[] = [];
 
     if (piece.team === Teams.BLACK) {
         // BLACK TEAM

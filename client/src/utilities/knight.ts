@@ -19,7 +19,7 @@ export function knight(piece: Cell, board: BoardType) :MovementType[] {
         { y: piece.y - 1, x: piece.x - 2 },
     ];
 
-    let moves :MovementType[] = [];
+    const moves :MovementType[] = [];
     possible.forEach(({ x, y }) => {
         if (x < BOARD_SIZE && x > -1 && y < BOARD_SIZE && y > -1 && board[y][x].team !== piece.team)
             moves.push({ x, y });

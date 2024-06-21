@@ -21,7 +21,7 @@ import {
  * @returns - an array of possible castle moves for a king
  */
 function getCastleMoves(piece: Cell, board: BoardType) :MovementType[] {
-    let moves :MovementType[] = [];
+    const moves :MovementType[] = [];
 
     if(!piece.hasMoved) {
 
@@ -69,7 +69,7 @@ export function king(piece: Cell, board: BoardType) :MovementType[] {
         getSouthWestCell(piece, board),
     ];
 
-    let moves :MovementType[] = [];
+    const moves :MovementType[] = [];
     possible.forEach((p) => {
         if(p && p.team !== piece.team) moves.push({ x: p.x, y: p.y })
     })
