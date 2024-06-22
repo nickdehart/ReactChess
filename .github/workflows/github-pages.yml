@@ -43,11 +43,10 @@ jobs:
       - name: get-npm-version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@v1.3.1
+        with:
+            path: client/package.json
       - name: Build
         run: npm run build --prefix client
-            echo "VITE_GITHUB_REF_NAME $VITE_GITHUB_REF_NAME"
-            echo "VITE_GITHUB_SHA $VITE_GITHUB_SHA"
-            echo "VITE_VERSION $VITE_VERSION"
         env:
             VITE_GITHUB_REF_NAME: ${{ github.ref_name }}
             VITE_GITHUB_SHA: ${{ github.sha }}
