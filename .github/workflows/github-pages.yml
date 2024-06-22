@@ -40,18 +40,15 @@ jobs:
         run: npm ci --prefix client
       - name: grant permissions to shell script
         run: chmod +x ${PWD}/client/git-info.sh
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
       - name: Build
         run: npm run build --prefix client 
         env:
             VITE_GITHUB_REF_NAME: ${{ github.ref_name }}
             VITE_GITHUB_SHA: ${{ github.sha }}
-            VITE_VERSION: | 
-                cat package.json \
-                | grep version \
-                | head -1 \
-                | awk -F: '{ print $2 }' \
-                | sed 's/[",]//g' \
-                | tr -d '[[:space:]]'
+            VITE_VERSION: ${{ steps.package-version.outputs.current-version }}
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
