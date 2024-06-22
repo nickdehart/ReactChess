@@ -1,9 +1,7 @@
 .historyContainer { 
-    width: -webkit-fill-available;
     background-color: var(--color3);
     border-radius: var(--app-border-radius);
-    margin: 10px 20px;
-    padding: 20px;
+    height: 310px;
 }
 
 .history {
@@ -14,7 +12,7 @@
     list-style-type: none;
     border-bottom: 1px solid;
     overflow-y: scroll;
-    max-height: 475px;
+    height: 225px;
 }
 
 .history > li {
@@ -46,38 +44,4 @@
     margin: 0px 10px;
     width: 20px;
     height: 20px;
-}
-
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-    .historyContainer { 
-        max-width: 90%;
-        max-height: 250px;
-    }
-    .history {
-        height: 80%;
-    }
-}
-
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
-    .historyContainer { 
-        max-width: 70%;
-        max-height: 250px;
-    }
-    .history {
-        height: 80%;
-    }
-}
-
-/* Medium devices (landscape tablets, 1024px and up) */
-@media only screen and (min-width: 1024px) {
-    .historyContainer { 
-        height: 90%;
-        max-height: 90%;
-        max-width: 20%;
-    }
-    .history {
-        height: 90%;
-    }
 }

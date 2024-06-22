@@ -3,6 +3,8 @@ import classes from './LostPieces.module.css';
 import { useGame } from "@/hooks/useGame";
 import { Cell } from '@/types/common';
 import { getImage } from "@/utilities/imageUtils";
+import { Col } from '../Col';
+import { Row } from '../Row';
 
 
 export function LostPieces() {
@@ -22,15 +24,17 @@ export function LostPieces() {
     }
 
     return (
-        <aside className={classes.lostPiecesContainer}>
-            <div className={classes.teamWhiteContainer}>
-                <b>Taken White Pieces</b>
-                <span className={classes.imageContainer}>{mapPieces(lostWhitePieces)}</span>
-            </div>
-            <div className={classes.teamBlackContainer}>
-                <b>Taken Black Pieces</b>
-                <span className={classes.imageContainer}>{mapPieces(lostBlackPieces)}</span>
-            </div>
-        </aside>
+        <Col xs={12} s={12} m={12} l={3} xl={3}>
+            <Row className={classes.lostPiecesContainer}>
+                <Col className={classes.teamWhiteContainer}>
+                    <b>Taken White Pieces</b>
+                    <span className={classes.imageContainer}>{mapPieces(lostWhitePieces)}</span>
+                </Col>
+                <Col className={classes.teamBlackContainer}>
+                    <b>Taken Black Pieces</b>
+                    <span className={classes.imageContainer}>{mapPieces(lostBlackPieces)}</span>
+                </Col>
+            </Row>
+        </Col>
     );
 }
