@@ -51,7 +51,11 @@ jobs:
       - name: grant permissions to shell script
         run: chmod +x ${PWD}/client/git-info.sh
       - name: Build
-        run: npm run build --prefix client
+        run: npm run build --prefix client 
+        env:
+            VITE_GITHUB_REF_NAME: ${{ github.ref_name }}
+            VITE_GITHUB_REF: ${{ github.ref }}
+            VITE_GITHUB_SHA: ${{ github.sha }}
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
