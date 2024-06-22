@@ -38,6 +38,16 @@ jobs:
           cache-dependency-path: client/package-lock.json
       - name: Install dependencies
         run: npm ci --prefix client
+      - name: Use Variables
+        run: |
+            echo "VITE_GITHUB_REF_NAME : $VITE_GITHUB_REF_NAME"
+            echo "VITE_GITHUB_REF : $VITE_GITHUB_REF"
+            echo "VITE_GITHUB_SHA : $VITE_GITHUB_SHA"
+        env:
+            VITE_GITHUB_REF_NAME: ${{ github.ref_name }}
+            VITE_GITHUB_REF: ${{ github.ref }}
+            VITE_GITHUB_SHA: ${{ github.sha }}
+
       - name: grant permissions to shell script
         run: chmod +x ${PWD}/client/git-info.sh
       - name: Build
