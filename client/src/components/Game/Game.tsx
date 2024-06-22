@@ -1,6 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import classes             from './Game.module.css';
-
 import { Board }           from "@/components/Board";
 import { LostPieces }      from "@/components/LostPieces";
 import { History }         from "@/components/History";
@@ -15,6 +13,7 @@ import { BOARD_SIZE }      from "@/types/constants";
 import { boardToFEN }      from "@/utilities/fenUtils";
 import { post }            from "@/utilities/post";
 import { Pieces, Teams, Columns, Rows } from '@/types/enums';
+import { Row } from "../Row";
 
 
 export function Game() {
@@ -85,7 +84,7 @@ export function Game() {
     const prevTurn = usePrevious(turn);
     useEffect(() => {
         if(turn === Teams.BLACK && turn !== prevTurn) {
-            post(import.meta.env.VITE_CHESS_ENGINE, { board: boardToFEN(board, turn), level: 1 })
+            post(`${import.meta.env.VITE_CHESS_ENGINE}/get_next_move`, { board: boardToFEN(board, turn), level: 1 })
                 .then(handleAIMove)
         }
     }, [turn, board, prevTurn, handleAIMove])
@@ -115,15 +114,15 @@ export function Game() {
 
 
     return (
-        <section className={classes.section}>
-
-            <History />
-            <Board handleMove={handleMove} />
-            <LostPieces />
+        <>
+            <Row>
+                <LostPieces />
+                <Board handleMove={handleMove} />
+                <History />
+            </Row>
 
             <GameOverModal gameOver={gameOverStatus} turn={turn} />
             <PromotionModal open={open} setOpen={setOpen} />
-
-        </section>
+        </>
     );
 }
