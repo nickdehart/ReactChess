@@ -3,8 +3,8 @@ import github from '@/assets/github.svg';
 
 export function Footer() {
     const year = new Date().getFullYear();
-    const version = import.meta.env.VITE_GITHUB_REF_NAME && import.meta.env.VITE_GITHUB_SHA && import.meta.env.VITE_VERSION ?
-        `${import.meta.env.VITE_GITHUB_REF_NAME}-v${import.meta.env.VITE_VERSION}-${import.meta.env.VITE_GITHUB_SHA.slice(0, 7)}` : "";
+    const version = import.meta.env.VITE_GITHUB_REF_NAME && import.meta.env.VITE_GITHUB_SHA ?
+        `${import.meta.env.VITE_GITHUB_REF_NAME}-v${import.meta.env.VITE_VERSION || "1.0.0"}-${import.meta.env.VITE_GITHUB_SHA.slice(0, 7)}` : "";
     return (
         <footer className={classes.footer}>
             <a href="https://github.com/nickdehart/ReactChess" target="_blank" className={classes.footerLink}>
