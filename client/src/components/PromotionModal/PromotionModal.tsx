@@ -1,5 +1,5 @@
 import classes from './PromotionModal.module.css';
-import { Modal } from "@/components/Modal";
+import { Modal } from "@/components/ui/Modal";
 import { getImage } from "@/utilities/imageUtils";
 import { Pieces } from '@/types/enums';
 import { useBoard } from '@/hooks/useBoard';
