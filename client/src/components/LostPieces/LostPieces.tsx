@@ -4,7 +4,7 @@ import { useGame } from "@/hooks/useGame";
 import { Cell } from '@/types/common';
 import { getImage } from "@/utilities/imageUtils";
 import { Col } from '../Col';
-import { Row } from '../Row';
+import { Row } from '@/components/ui/Row';
 
 
 export function LostPieces() {

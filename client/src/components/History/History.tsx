@@ -2,8 +2,8 @@ import classes from './History.module.css';
 import { useHistory } from '@/hooks/useHistory';
 import { getImage } from '@/utilities/imageUtils';
 import { Pieces } from '@/types/enums';
-import { Row } from '../Row';
 import { Col } from '../Col';
+import { Row } from '@/components/ui/Row';
 
 
 const ColumnMap :{ [key: number]: string } = {

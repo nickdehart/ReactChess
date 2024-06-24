@@ -4,6 +4,7 @@ import { LostPieces }      from "@/components/LostPieces";
 import { History }         from "@/components/History";
 import { GameOverModal }   from "@/components/GameOverModal";
 import { PromotionModal }  from "@/components/PromotionModal";
+import { Row }             from "@/components/ui/Row";
 import { useBoard }        from "@/hooks/useBoard";
 import { useGame }         from "@/hooks/useGame";
 import { useHistory }      from "@/hooks/useHistory";
@@ -13,7 +14,6 @@ import { BOARD_SIZE }      from "@/types/constants";
 import { boardToFEN }      from "@/utilities/fenUtils";
 import { post }            from "@/utilities/post";
 import { Pieces, Teams, Columns, Rows } from '@/types/enums';
-import { Row } from "../Row";
 
 
 export function Game() {
