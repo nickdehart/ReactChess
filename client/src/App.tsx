@@ -1,6 +1,6 @@
 import { Header } from '@/components/Header';
 import { Game } from '@/components/Game';
-import { Footer } from '@/components/Footer';
+import { Footer } from '@/components/layout/Footer';
 import { Store } from './store';
 import './App.css';
 
