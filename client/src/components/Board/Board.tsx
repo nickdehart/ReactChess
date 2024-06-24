@@ -9,7 +9,7 @@ export function Board({ handleMove }: { handleMove: (target: Cell)=>void }) {
     const { board } = useBoard();
 
     return (
-        <Col xs={12} s={12} m={12} l={6} xl={6}>
+        <Col xs={12} s={12} m={12} l={6} xl={6} className={classes.boardContainer}>
             <table className={classes.table}>
                 <thead>
                     <tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th></tr>
