@@ -3,7 +3,7 @@ import classes from './LostPieces.module.css';
 import { useGame } from "@/hooks/useGame";
 import { Cell } from '@/types/common';
 import { getImage } from "@/utilities/imageUtils";
-import { Col } from '../Col';
+import { Col } from '@/components/ui/Col';
 import { Row } from '@/components/ui/Row';
 
 

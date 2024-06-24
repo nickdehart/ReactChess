@@ -1,9 +1,9 @@
 import classes      from './Board.module.css';
 import { Piece }    from "@/components/Piece";
+import { Col }      from '@/components/ui/Col';
 import { useBoard } from "@/hooks/useBoard";
 import { Cell }     from '@/types/common';
 import { BOARD_SIZE } from '@/types/constants';
-import { Col } from '../Col';
 
 export function Board({ handleMove }: { handleMove: (target: Cell)=>void }) {
     const { board } = useBoard();
