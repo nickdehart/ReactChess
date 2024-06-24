@@ -38,11 +38,11 @@ jobs:
           cache-dependency-path: client/package-lock.json
       - name: Install dependencies
         run: npm ci --prefix client
-      - name: get-npm-version
+      - name: Make package-version.sh executable
+        run: chmod +x ${PWD}/client/package-version.sh
+      - name: Run package-version.sh
         id: package-version
-        uses: martinbeentjes/npm-get-version-action@v1.3.1
-        with:
-            path: client
+        run: ${PWD}/client/package-version.sh
       - name: Build
         run: npm run build --prefix client
         env:

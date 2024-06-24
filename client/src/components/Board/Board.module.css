@@ -28,3 +28,8 @@
 .cellNoHighlight {
     border: 1px solid transparent;
 }
+
+.boardContainer {
+    display: flex;
+    justify-content: center;
+}
