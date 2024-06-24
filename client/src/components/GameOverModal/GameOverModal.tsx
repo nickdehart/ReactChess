@@ -1,5 +1,5 @@
 import classes from './GameOverModal.module.css';
-import { Modal } from "@/components/Modal";
+import { Modal } from "@/components/ui/Modal";
 import { useBoard } from '@/hooks/useBoard';
 import { Teams } from '@/types/enums';
 
