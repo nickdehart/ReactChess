@@ -309,7 +309,7 @@ test('getSouthEastCells()', () => {
         x: 7,
         y: 7,
         type: Pieces.QUEEN,
-        team: Teams.WHITE,
+        team: Teams.BLACK,
         highlight: false,
         hasMoved: false, 
     }
@@ -338,7 +338,7 @@ test('getSouthWestCells()', () => {
         x: 0,
         y: 7,
         type: Pieces.QUEEN,
-        team: Teams.WHITE,
+        team: Teams.BLACK,
         highlight: false,
         hasMoved: false, 
     }
@@ -349,7 +349,7 @@ test('getSouthWestCells()', () => {
         x: 4,
         y: 2,
         type: Pieces.QUEEN,
-        team: Teams.WHITE,
+        team: Teams.BLACK,
         highlight: false,
         hasMoved: false, 
     }
