@@ -21,6 +21,16 @@ import {
     getSouthWestCells,
 } from "../directionalUtils"; 
 
+const board :BoardType = init();
+
+interface randomPlaceArgs { overrides?: Partial<Cell>, xMin?: number, xMax?: number, yMin?: number, yMax?: number }
+
+type directionFn = ({ x, y }: Cell, board: BoardType) => Cell | undefined;
+type directionFnMultiple = (piece: Cell, board: BoardType, team: Teams)=>Cell[];
+
+type xyFn = (xy: number)=>number
+type xyFnMultiple = (xy: number, index: number)=>number
+
 /**
  * Get a random integer in a range from min to max inclusive.
  * @param min 
@@ -31,7 +41,6 @@ function randomIntFromInterval(min: number, max: number) :number {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-interface randomPlaceArgs { overrides?: Partial<Cell>, xMin?: number, xMax?: number, yMin?: number, yMax?: number }
 /**
  * Get a random cell on a board, randomness can be overridden with args.
  * @param overrides - cell obj overrides
@@ -54,38 +63,61 @@ function randomPlace(args?: randomPlaceArgs) :Cell {
     }
 }
 
-type directionFn = ({ x, y }: Cell, board: BoardType) => Cell | undefined;
-
 /**
  * Test a known boundary. Example: get north cell while on northermost row
- * @param board 
  * @param fn - function being tested
  * @param overrides - override random position to be at the edge
  */
 function boundaryTest(fn: directionFn, overrides: randomPlaceArgs['overrides']) {
     // test outer boundary
-    const board :BoardType = init();
     const invalidPlace :Cell = randomPlace({ overrides });
     const invalidCell = fn(invalidPlace, board);
     expect(invalidCell).toBe(undefined)
 }
 
 /**
- * Test a known good move
+ * Test a known good singular move
  * @param fn - function being tested
  * @param xFn - x output of fn
  * @param yFn - y output of fn 
  * @param args - randomPlace args to ensure move is valid
  */
-function validityTest({ fn, xFn, yFn, args}: { fn: directionFn, xFn?: (x: number)=>number, yFn?: (y: number)=>number, args: randomPlaceArgs }) {
+function validityTest({ fn, xFn, yFn, args}: { fn: directionFn, xFn?: xyFn, yFn?: xyFn, args: randomPlaceArgs }) {
     // test known good move
-    const board :BoardType = init();
     const place :Cell = randomPlace(args);
     const validCell = fn(place, board);
     expect(validCell).toBeDefined();
     if(!validCell) throw new Error("[validityTest]: Valid Cell is undefined.")
     expect(validCell.x).toBe(xFn ? xFn(place.x) : place.x);
     expect(validCell.y).toBe(yFn ? yFn(place.y) : place.y);
+}
+
+/**
+ * Test a known boundary. Example: get north cell while on northermost row
+ * @param fn 
+ * @param overrides 
+ */
+function boundaryTestMultiple(fn: directionFnMultiple, overrides: randomPlaceArgs['overrides']) {
+    const boundaryPlace :Cell = randomPlace({ overrides });
+    const boundaryCells = fn(boundaryPlace, board, boundaryPlace.team);
+    expect(boundaryCells.length).toBe(0);
+}
+
+/**
+ * Test a known good multiple move
+ * @param fn - function being tested
+ * @param xFn - x output of fn
+ * @param yFn - y output of fn 
+ * @param overrides - randomPlace overrides
+ */
+function validityTestMultiple({ fn, xFn, yFn, overrides, len=4 }: { fn: directionFnMultiple, xFn?: xyFnMultiple, yFn?: xyFnMultiple, overrides: randomPlaceArgs['overrides'], len?: number }) {
+    const place :Cell = randomPlace({ overrides });
+    const cells = fn(place, board, place.team);
+    expect(cells.length).toBe(len);
+    cells.forEach((cell, idx) => {
+        expect(cell.x).toBe(xFn ? xFn(place.x, idx) : place.x);
+        expect(cell.y).toBe(yFn ? yFn(place.y, idx) : place.y);
+    })
 }
 
 
@@ -130,233 +162,85 @@ test('getSouthWestCell()', () => {
 })
 
 test('getNorthCells()', () => {
-    const board :BoardType = init();
-    const boundaryPlace = {
-        x: 4,
-        y: 0,
-        type: Pieces.QUEEN,
-        team: Teams.WHITE,
-        highlight: false,
-        hasMoved: false, 
-    }
-    const boundaryCells = getNorthCells(boundaryPlace, board, boundaryPlace.team);
-    expect(boundaryCells.length).toBe(0);
-
-    const place :Cell = {
-        x: 4,
-        y: 5,
-        type: Pieces.QUEEN,
-        team: Teams.WHITE,
-        highlight: false,
-        hasMoved: false, 
-    }
-    const cells = getNorthCells(place, board, place.team);
-    expect(cells.length).toBe(4);
-    cells.forEach((cell, idx) => {
-        expect(cell.x).toBe(place.x);
-        expect(cell.y).toBe(place.y-(idx+1));
-    })
+    boundaryTestMultiple(getNorthCells, { y: 0, x: 4, type: Pieces.QUEEN, team: Teams.WHITE });
+    validityTestMultiple({
+        fn: getNorthCells,
+        yFn: (y, i)=>y-(i+1),
+        len: 4,
+        overrides: { y: 5, x: 4, type: Pieces.QUEEN, team: Teams.WHITE }
+    });
 })
 
 test('getEastCells()', () => {
-    const board :BoardType = init();
-    const boundaryPlace = {
-        x: 7,
-        y: 5,
-        type: Pieces.QUEEN,
-        team: Teams.WHITE,
-        highlight: false,
-        hasMoved: false, 
-    }
-    const boundaryCells = getEastCells(boundaryPlace, board, boundaryPlace.team);
-    expect(boundaryCells.length).toBe(0);
-
-    const place :Cell = {
-        x: 3,
-        y: 5,
-        type: Pieces.QUEEN,
-        team: Teams.WHITE,
-        highlight: false,
-        hasMoved: false, 
-    }
-    const cells = getEastCells(place, board, place.team);
-    expect(cells.length).toBe(4);
-    cells.forEach((cell, idx) => {
-        expect(cell.x).toBe(place.x+idx+1);
-        expect(cell.y).toBe(place.y);
-    })
+    boundaryTestMultiple(getEastCells, { y: 5, x: 7, type: Pieces.QUEEN, team: Teams.WHITE });
+    validityTestMultiple({
+        fn: getEastCells,
+        xFn: (x, i)=>x+i+1,
+        len: 4,
+        overrides: { y: 5, x: 3, type: Pieces.QUEEN, team: Teams.WHITE }
+    });
 })
 
 test('getSouthCells()', () => {
-    const board :BoardType = init();
-    const boundaryPlace = {
-        x: 4,
-        y: 7,
-        type: Pieces.QUEEN,
-        team: Teams.BLACK,
-        highlight: false,
-        hasMoved: false, 
-    }
-    const boundaryCells = getSouthCells(boundaryPlace, board, boundaryPlace.team);
-    expect(boundaryCells.length).toBe(0);
-
-    const place :Cell = {
-        x: 4,
-        y: 2,
-        type: Pieces.QUEEN,
-        team: Teams.BLACK,
-        highlight: false,
-        hasMoved: false, 
-    }
-    const cells = getSouthCells(place, board, place.team);
-    expect(cells.length).toBe(4);
-    cells.forEach((cell, idx) => {
-        expect(cell.x).toBe(place.x);
-        expect(cell.y).toBe(place.y+idx+1);
-    })
+    boundaryTestMultiple(getSouthCells, { y: 7, x: 4, type: Pieces.QUEEN, team: Teams.BLACK });
+    validityTestMultiple({
+        fn: getSouthCells,
+        yFn: (y, i)=>y+i+1,
+        len: 4,
+        overrides: { y: 2, x: 4, type: Pieces.QUEEN, team: Teams.BLACK }
+    });
 })
 
 test('getWestCells()', () => {
-    const board :BoardType = init();
-    const boundaryPlace = {
-        x: 0,
-        y: 4,
-        type: Pieces.QUEEN,
-        team: Teams.WHITE,
-        highlight: false,
-        hasMoved: false, 
-    }
-    const boundaryCells = getWestCells(boundaryPlace, board, boundaryPlace.team);
-    expect(boundaryCells.length).toBe(0);
-
-    const place :Cell = {
-        x: 4,
-        y: 5,
-        type: Pieces.QUEEN,
-        team: Teams.WHITE,
-        highlight: false,
-        hasMoved: false, 
-    }
-    const cells = getWestCells(place, board, place.team);
-    expect(cells.length).toBe(4);
-    cells.forEach((cell, idx) => {
-        expect(cell.x).toBe(place.x-(idx+1));
-        expect(cell.y).toBe(place.y);
-    })
+    boundaryTestMultiple(getWestCells, { y: 4, x: 0, type: Pieces.QUEEN, team: Teams.WHITE });
+    validityTestMultiple({
+        fn: getWestCells,
+        xFn: (x, i)=>x-(i+1),
+        len: 4,
+        overrides: { y: 5, x: 4, type: Pieces.QUEEN, team: Teams.WHITE }
+    });
 })
 
 test('getNorthEastCells()', () => {
-    const board :BoardType = init();
-    const boundaryPlace = {
-        x: 7,
-        y: 0,
-        type: Pieces.QUEEN,
-        team: Teams.WHITE,
-        highlight: false,
-        hasMoved: false, 
-    }
-    const boundaryCells = getNorthEastCells(boundaryPlace, board, boundaryPlace.team);
-    expect(boundaryCells.length).toBe(0);
-
-    const place :Cell = {
-        x: 3,
-        y: 5,
-        type: Pieces.QUEEN,
-        team: Teams.WHITE,
-        highlight: false,
-        hasMoved: false, 
-    }
-    const cells = getNorthEastCells(place, board, place.team);
-    expect(cells.length).toBe(4);
-    cells.forEach((cell, idx) => {
-        expect(cell.x).toBe(place.x+idx+1);
-        expect(cell.y).toBe(place.y-(idx+1));
-    })
+    boundaryTestMultiple(getNorthEastCells, { y: 0, x: 7, type: Pieces.QUEEN, team: Teams.WHITE });
+    validityTestMultiple({
+        fn: getNorthEastCells,
+        xFn: (x, i)=>x+i+1,
+        yFn: (y, i)=>y-(i+1),
+        len: 4,
+        overrides: { y: 5, x: 3, type: Pieces.QUEEN, team: Teams.WHITE }
+    });
 })
 
 test('getNorthWestCells()', () => {
-    const board :BoardType = init();
-    const boundaryPlace = {
-        x: 0,
-        y: 0,
-        type: Pieces.QUEEN,
-        team: Teams.WHITE,
-        highlight: false,
-        hasMoved: false, 
-    }
-    const boundaryCells = getNorthWestCells(boundaryPlace, board, boundaryPlace.team);
-    expect(boundaryCells.length).toBe(0);
-
-    const place :Cell = {
-        x: 4,
-        y: 5,
-        type: Pieces.QUEEN,
-        team: Teams.WHITE,
-        highlight: false,
-        hasMoved: false, 
-    }
-    const cells = getNorthWestCells(place, board, place.team);
-    expect(cells.length).toBe(4);
-    cells.forEach((cell, idx) => {
-        expect(cell.x).toBe(place.x-(idx+1));
-        expect(cell.y).toBe(place.y-(idx+1));
-    })
+    boundaryTestMultiple(getNorthWestCells, { y: 0, x: 0, type: Pieces.QUEEN, team: Teams.WHITE });
+    validityTestMultiple({
+        fn: getNorthWestCells,
+        xFn: (x, i)=>x-(i+1),
+        yFn: (y, i)=>y-(i+1),
+        len: 4,
+        overrides: { y: 5, x: 4, type: Pieces.QUEEN, team: Teams.WHITE }
+    });
 })
 
 test('getSouthEastCells()', () => {
-    const board :BoardType = init();
-    const boundaryPlace = {
-        x: 7,
-        y: 7,
-        type: Pieces.QUEEN,
-        team: Teams.BLACK,
-        highlight: false,
-        hasMoved: false, 
-    }
-    const boundaryCells = getSouthEastCells(boundaryPlace, board, boundaryPlace.team);
-    expect(boundaryCells.length).toBe(0);
-
-    const place :Cell = {
-        x: 3,
-        y: 2,
-        type: Pieces.QUEEN,
-        team: Teams.BLACK,
-        highlight: false,
-        hasMoved: false, 
-    }
-    const cells = getSouthEastCells(place, board, place.team);
-    expect(cells.length).toBe(4);
-    cells.forEach((cell, idx) => {
-        expect(cell.x).toBe(place.x+idx+1);
-        expect(cell.y).toBe(place.y+idx+1);
-    })
+    boundaryTestMultiple(getSouthEastCells, { y: 7, x: 7, type: Pieces.QUEEN, team: Teams.BLACK });
+    validityTestMultiple({
+        fn: getSouthEastCells,
+        xFn: (x, i)=>x+i+1,
+        yFn: (y, i)=>y+i+1,
+        len: 4,
+        overrides: { y: 2, x: 3, type: Pieces.QUEEN, team: Teams.BLACK }
+    });
 })
 
 test('getSouthWestCells()', () => {
-    const board :BoardType = init();
-    const boundaryPlace = {
-        x: 0,
-        y: 7,
-        type: Pieces.QUEEN,
-        team: Teams.BLACK,
-        highlight: false,
-        hasMoved: false, 
-    }
-    const boundaryCells = getSouthWestCells(boundaryPlace, board, boundaryPlace.team);
-    expect(boundaryCells.length).toBe(0);
-
-    const place :Cell = {
-        x: 4,
-        y: 2,
-        type: Pieces.QUEEN,
-        team: Teams.BLACK,
-        highlight: false,
-        hasMoved: false, 
-    }
-    const cells = getSouthWestCells(place, board, place.team);
-    expect(cells.length).toBe(4);
-    cells.forEach((cell, idx) => {
-        expect(cell.x).toBe(place.x-(idx+1));
-        expect(cell.y).toBe(place.y+idx+1);
-    })
+    boundaryTestMultiple(getSouthWestCells, { y: 7, x: 0, type: Pieces.QUEEN, team: Teams.BLACK });
+    validityTestMultiple({
+        fn: getSouthWestCells,
+        xFn: (x, i)=>x-(i+1),
+        yFn: (y, i)=>y+i+1,
+        len: 4,
+        overrides: { y: 2, x: 4, type: Pieces.QUEEN, team: Teams.BLACK }
+    });
 })
