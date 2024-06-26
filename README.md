@@ -9,10 +9,9 @@ In reality some third party libraries would have made this easier.
 
 #### TODO:
 
-- Tests!
-- Logic impovements.
+- More tests, e2e, integration.
+- Deploy server.
 - Check and Checkmate states.
-- UI improvements.
 - Undo last move.
 
-<!-- ![alt text](./example.gif) -->
+![alt text](./example.gif)
